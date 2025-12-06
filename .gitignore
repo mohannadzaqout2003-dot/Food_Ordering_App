@@ -1,0 +1,79 @@
+# ===========================
+# Flutter / Dart / Build
+# ===========================
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+.flutter-plugins
+.flutter-plugins-dependencies
+**/ios/Flutter/.last_build_id
+
+# ===========================
+# IDE Files
+# ===========================
+.idea/
+*.iml
+*.ipr
+*.iws
+.DS_Store
+.vscode/
+
+# ===========================
+# Misc
+# ===========================
+*.log
+*.pyc
+*.swp
+*.class
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# ===========================
+# Android
+# ===========================
+/android/app/debug
+/android/app/profile
+/android/app/release
+android/local.properties
+android/key.properties
+*.keystore
+*.jks
+
+# ===========================
+# iOS
+# ===========================
+ios/Pods/
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
+# ===========================
+# Firebase (VERY IMPORTANT)
+# ===========================
+android/app/google-services.json
+lib/firebase_options.dart
+
+# ===========================
+# API Keys & Sensitive Files
+# ===========================
+lib/api/api_setting.dart
+*.env
+.env
+
+# ===========================
+# Crash / Obfuscation
+# ===========================
+app.*.symbols
+app.*.map.json
+
+# ===========================
+# Documentation
+# ===========================
+**/doc/api/
