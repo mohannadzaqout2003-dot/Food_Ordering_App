@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/localization/app_string.dart';
 import 'package:restaurant_app/provider/auth_provider.dart';
 import 'package:restaurant_app/provider/cart_provider.dart';
+import 'package:restaurant_app/provider/order_provider.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -54,8 +55,9 @@ class _PaymentPageState extends State<PaymentPage> {
                     subtitle: Text(
                       AppStrings.t(context, 'cart_login_required'),
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color
-                            ?.withOpacity(0.7),
+                        color: theme.textTheme.bodySmall?.color?.withOpacity(
+                          0.7,
+                        ),
                       ),
                     ),
                     onChanged: (value) {
@@ -73,8 +75,9 @@ class _PaymentPageState extends State<PaymentPage> {
                     subtitle: Text(
                       '(Test mode – no real payment)',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color
-                            ?.withOpacity(0.7),
+                        color: theme.textTheme.bodySmall?.color?.withOpacity(
+                          0.7,
+                        ),
                       ),
                     ),
                     onChanged: (value) {
@@ -167,71 +170,70 @@ class _PaymentPageState extends State<PaymentPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () async {
-                  final auth = context.read<AuthProvider>();
+             onPressed: () async {
+  final auth = context.read<AuthProvider>();
 
-                  if (cart.items.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          AppStrings.t(context, 'cart_empty_error'),
-                        ),
-                      ),
-                    );
-                    return;
-                  }
-
-                  if (auth.user == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          AppStrings.t(context, 'cart_login_required'),
-                        ),
-                      ),
-                    );
-                    return;
-                  }
-
-                  final methodForOrder =
-                      _selectedMethod == 'cash_on_delivery'
-                          ? 'Cash on Delivery'
-                          : 'Card (Simulation)';
-
-                  final statusForOrder =
-                      _selectedMethod == 'cash_on_delivery'
-                          ? 'Pending (Cash on Delivery)'
-                          : 'Paid (Simulation)';
-
-
-try {
-  await context.read<CartProvider>().checkout(
-    userId: auth.user!.uid,
-    paymentMethod: methodForOrder,  
-    paymentStatus: statusForOrder,  
-  );
-
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(
-        AppStrings.t(context, 'cart_order_success'),
+  if (cart.items.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppStrings.t(context, 'cart_empty_error'),
+        ),
       ),
-    ),
-  );
+    );
+    return;
+  }
 
-  if (!mounted) return;
+  if (auth.user == null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppStrings.t(context, 'cart_login_required'),
+        ),
+      ),
+    );
+    return;
+  }
 
-  Navigator.pushNamedAndRemoveUntil(
-    context,
-    '/main',
-    (route) => false,
-  );
-} catch (e) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Error: $e')),
-  );
-}
+  final methodForOrder = _selectedMethod == 'cash_on_delivery'
+      ? 'Cash on Delivery'
+      : 'Card (Simulation)';
 
-                },
+  final statusForOrder = _selectedMethod == 'cash_on_delivery'
+      ? 'Pending (Cash on Delivery)'
+      : 'Paid (Simulation)';
+
+  try {
+    await context.read<CartProvider>().checkout(
+      userId: auth.user!.uid,
+      paymentMethod: methodForOrder,
+      paymentStatus: statusForOrder,
+    );
+
+    await context.read<OrdersProvider>().loadOrders();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppStrings.t(context, 'cart_order_success'),
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/main',
+      (route) => false,
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: $e')),
+    );
+  }
+},
+
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 12.h),
                   shape: RoundedRectangleBorder(

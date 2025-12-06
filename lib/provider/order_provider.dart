@@ -1,57 +1,42 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:restaurant_app/api/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:restaurant_app/model/order_model.dart';
 
-
-
 class OrdersProvider extends ChangeNotifier {
-  final _firestore = FirebaseFirestore.instance;
-  final _auth = AuthService.instance;
-
+  final List<OrderModel> _orders = [];
   bool _isLoading = false;
+
+  List<OrderModel> get orders => List.unmodifiable(_orders);
   bool get isLoading => _isLoading;
 
-  String? _errorMessage;
-  String? get errorMessage => _errorMessage;
-
-  List<OrderModel> _orders = [];
-  List<OrderModel> get orders => _orders;
-
   Future<void> loadOrders() async {
-    final user = _auth.currentUser;
-
+    final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      _orders = [];
+      _orders.clear();
       notifyListeners();
       return;
     }
 
-    try {
-      _isLoading = true;
-      _errorMessage = null;
-      notifyListeners();
+    _isLoading = true;
+    notifyListeners();
 
-      final snapshot = await _firestore
-          .collection('users')
-          .doc(user.uid)
+    try {
+      final snap = await FirebaseFirestore.instance
           .collection('orders')
-          .orderBy('createdAt', descending: true)
+          .where('userId', isEqualTo: user.uid)
           .get();
 
-      _orders = snapshot.docs
-          .map((doc) => OrderModel.fromDoc(doc))
-          .toList();
-    } catch (e) {
+      _orders
+        ..clear()
+        ..addAll(snap.docs.map((doc) => OrderModel.fromFirestore(doc)));
+    } catch (e, st) {
       debugPrint('Error loading orders: $e');
-      _errorMessage = "Failed to load orders.";
+      debugPrintStack(stackTrace: st);
+      _orders.clear();
     } finally {
       _isLoading = false;
       notifyListeners();
     }
-  }
-
-  Future<void> refresh() async {
-    await loadOrders();
   }
 }
