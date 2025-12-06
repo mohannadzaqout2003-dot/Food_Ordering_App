@@ -138,7 +138,7 @@ class AppTheme {
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFF26302B), // حقل إدخال مناسب للدارك
+      fillColor: const Color(0xFF26302B),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: Color(0xFF3A4A43)),
