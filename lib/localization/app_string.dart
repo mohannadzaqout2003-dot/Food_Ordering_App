@@ -166,8 +166,8 @@ class AppStrings {
     'terms_section_contact_body':
         'If you face any issue while using the app, you can contact our support team. '
         'We will do our best to help you and solve your problem as soon as possible.',
-  
-      // ===== Notifications =====
+
+    // ===== Notifications =====
     'notifications_title': 'Notifications',
     'notifications_empty': 'No notifications yet.',
     'notifications_mark_all': 'Mark all as read',
@@ -179,7 +179,6 @@ class AppStrings {
     'notification_order_title': 'Order placed',
     'notification_order_body':
         'Your order has been placed successfully. You can track it from the Orders page.',
-
 
     // ===== Payment =====
     'payment_title': 'Payment',
@@ -194,6 +193,18 @@ class AppStrings {
     'payment_error_no_user': 'Please login before completing payment.',
     'payment_error_empty_cart': 'Your cart is empty.',
 
+    //onboardin page
+    'onboarding_slide_1_title': 'Welcome to Food App',
+    'onboarding_slide_1_description':
+        'Discover delicious meals, delivered to your door.',
+    'onboarding_slide_2_title': 'Easy Ordering',
+    'onboarding_slide_2_description':
+        'Order your favorite meals in a few simple steps.',
+    'onboarding_slide_3_title': 'Track Your Orders',
+    'onboarding_slide_3_description': 'Get real-time updates on your orders.',
+    'onboarding_next': 'Next',
+    'onboarding_skip': 'Skip',
+    'onboarding_done': 'Done',
   };
 
   // ================= ARABIC =================
@@ -360,7 +371,7 @@ class AppStrings {
         'إذا واجهتك أي مشكلة أثناء استخدام التطبيق، يمكنك التواصل مع فريق الدعم. '
         'سنبذل قصارى جهدنا لمساعدتك وحل مشكلتك في أسرع وقت ممكن.',
 
-            // ===== Notifications =====
+    // ===== Notifications =====
     'notifications_title': 'الإشعارات',
     'notifications_empty': 'لا توجد إشعارات حتى الآن.',
     'notifications_mark_all': 'تحديد الكل كمقروء',
@@ -372,7 +383,6 @@ class AppStrings {
     'notification_order_title': 'تم إرسال الطلب',
     'notification_order_body':
         'تم إرسال طلبك بنجاح، يمكنك متابعة حالة الطلب من صفحة الطلبات.',
-
 
     // ===== Payment =====
     'payment_title': 'الدفع',
@@ -386,19 +396,33 @@ class AppStrings {
         'طريقة الدفع هذه غير مفعّلة في النسخة التجريبية.',
     'payment_error_no_user': 'يرجى تسجيل الدخول قبل إتمام الدفع.',
     'payment_error_empty_cart': 'سلة المشتريات فارغة.',
-
+    // onboarding page
+    'onboarding_slide_1_title': 'مرحبًا في تطبيق الطعام',
+    'onboarding_slide_1_description': 'اكتشف وجبات لذيذة، توصل إلى باب منزلك.',
+    'onboarding_slide_2_title': 'طلب سهل',
+    'onboarding_slide_2_description': 'اطلب وجباتك المفضلة في خطوات بسيطة.',
+    'onboarding_slide_3_title': 'تتبع طلباتك',
+    'onboarding_slide_3_description': 'احصل على تحديثات فورية حول طلباتك.',
+    'onboarding_next': 'التالي',
+    'onboarding_skip': 'تخطي',
+    'onboarding_done': 'تم',
   };
 
-static String t(BuildContext context, String key) {
-  final isArabic = Provider.of<LanguageProvider>(
-    context,
-    listen: false,
-  ).isArabic;
+  static String t(BuildContext context, String key) {
+    final isArabic = Provider.of<LanguageProvider>(
+      context,
+      listen: false,
+    ).isArabic;
 
-  final map = isArabic ? _ar : _en;
-  return map[key] ?? key;
-}
+    final map = isArabic ? _ar : _en;
+    return map[key] ?? key;
+  }
 
+  static String splash_title(BuildContext context) {
+    return 'Food App';
+  }
 
-
+  static String splash_subTitle(BuildContext context) {
+    return 'Discover the best food around you';
+  }
 }

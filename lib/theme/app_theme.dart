@@ -1,48 +1,40 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF16A34A);
+  // ===================== LIGHT MODE COLORS =====================
+  static const Color primaryLight = Color(0xFF007BFF); // Blue
+  static const Color secondaryLight = Color(0xFFFF9800); // Orange
+  static const Color accentLight = Color(0xFFFF4081); // Pink
+  static const Color backgroundLight = Color(0xFFF5F5F5); // Light Gray
+  static const Color surfaceLight = Colors.white;
 
-  static const Color primaryDark = Color(0xFF22C55E);
-
-  static const Color secondary = Color(0xFFFFB300); // Amber / Orange
-
-  static const Color tertiary = Color(0xFF34D399);
-
-  static const Color lightBackground = Color(0xFFE6F4EA); // Mint
-  static const Color lightSurface = Colors.white;
-
-  static const Color darkBackground = Color(0xFF0D1411);
-  static const Color darkSurface = Color(0xFF1A2320);
+  // ===================== DARK MODE COLORS =====================
+  static const Color primaryDark = Color(0xFF008B5B); // Dark Green
+  static const Color secondaryDark = Color(0xFFFFC107); // Yellow
+  static const Color accentDark = Color(0xFFFFEB3B); // Yellow Accent
+  static const Color backgroundDark = Color(0xFF121212); // Dark Background
+  static const Color surfaceDark = Color(0xFF1D1D1D); // Dark Surface
 }
 
 class AppTheme {
   // =========================== LIGHT THEME ===========================
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    useMaterial3: true,
-
-    primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.lightBackground,
-    cardColor: AppColors.lightSurface,
+    primaryColor: AppColors.primaryLight,
+    scaffoldBackgroundColor: AppColors.backgroundLight,
+    cardColor: AppColors.surfaceLight,
 
     colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
+      seedColor: AppColors.primaryLight,
       brightness: Brightness.light,
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      tertiary: AppColors.tertiary,
-      background: AppColors.lightBackground,
-      surface: AppColors.lightSurface,
+      primary: AppColors.primaryLight,
+      secondary: AppColors.secondaryLight,
+      background: AppColors.backgroundLight,
+      surface: AppColors.surfaceLight,
     ),
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: ZoomPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      },
-    ),
+
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: AppColors.backgroundLight,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.black87),
@@ -55,68 +47,30 @@ class AppTheme {
 
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.primaryLight,
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         padding: const EdgeInsets.symmetric(vertical: 14),
       ),
-    ),
-
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.lightSurface,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: Color(0xFFE0E0E0)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.primary, width: 1.4),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    ),
-
-    snackBarTheme: const SnackBarThemeData(
-      backgroundColor: Colors.black87,
-      contentTextStyle: TextStyle(color: Colors.white),
-      behavior: SnackBarBehavior.floating,
-    ),
-
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: AppColors.lightSurface,
-      selectedItemColor: AppColors.primary,
-      unselectedItemColor: Colors.grey,
-      showUnselectedLabels: true,
-      type: BottomNavigationBarType.fixed,
     ),
   );
 
   // =========================== DARK THEME ===========================
   static ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    useMaterial3: true,
     primaryColor: AppColors.primaryDark,
-    scaffoldBackgroundColor: AppColors.darkBackground,
-    cardColor: AppColors.darkSurface,
+    scaffoldBackgroundColor: AppColors.backgroundDark,
+    cardColor: AppColors.surfaceDark,
 
     colorScheme: ColorScheme.dark(
       primary: AppColors.primaryDark,
-      secondary: AppColors.secondary,
-      tertiary: AppColors.tertiary,
-      surface: AppColors.darkSurface,
+      secondary: AppColors.secondaryDark,
+      background: AppColors.backgroundDark,
+      surface: AppColors.surfaceDark,
     ),
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: ZoomPageTransitionsBuilder(),
-        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      },
-    ),
+
     appBarTheme: const AppBarTheme(
-      backgroundColor: AppColors.darkSurface,
+      backgroundColor: AppColors.surfaceDark,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: Colors.white),
@@ -134,38 +88,6 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         padding: const EdgeInsets.symmetric(vertical: 14),
       ),
-    ),
-
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: const Color(0xFF26302B),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: Color(0xFF3A4A43)),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: Color(0xFF3A4A43)),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: AppColors.primaryDark, width: 1.5),
-      ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    ),
-
-    snackBarTheme: const SnackBarThemeData(
-      backgroundColor: AppColors.darkSurface,
-      contentTextStyle: TextStyle(color: Colors.white),
-      behavior: SnackBarBehavior.floating,
-    ),
-
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      backgroundColor: AppColors.darkSurface,
-      selectedItemColor: AppColors.primaryDark,
-      unselectedItemColor: Colors.grey,
-      showUnselectedLabels: true,
-      type: BottomNavigationBarType.fixed,
     ),
   );
 }

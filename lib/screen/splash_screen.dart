@@ -24,9 +24,9 @@ class _SplashPageState extends State<SplashPage>
       upperBound: 1.05,
     )..repeat(reverse: true);
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pushReplacementNamed(context, '/onboarding');
     });
   }
 
@@ -43,16 +43,11 @@ class _SplashPageState extends State<SplashPage>
     return Scaffold(
       body: Stack(
         children: [
-          /// Background Gradient
           Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFFff6a00), Color(0xFFee0979)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
+            child: Image.asset(
+              'assets/splash.jpg',
+              fit: BoxFit.cover,
+              opacity: AlwaysStoppedAnimation(1),
             ),
           ),
 
@@ -64,8 +59,8 @@ class _SplashPageState extends State<SplashPage>
                 ScaleTransition(
                   scale: _controller,
                   child: Container(
-                    width: 110.w,
-                    height: 110.w,
+                    width: 120.w,
+                    height: 120.w,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.15),
                       shape: BoxShape.circle,
@@ -77,7 +72,7 @@ class _SplashPageState extends State<SplashPage>
                     child: Icon(
                       Icons.fastfood_rounded,
                       color: Colors.white,
-                      size: 50.sp,
+                      size: 60.sp,
                     ),
                   ),
                 ),
@@ -86,10 +81,11 @@ class _SplashPageState extends State<SplashPage>
 
                 /// Title
                 Text(
-                  AppStrings.t(context, 'splash_title'),
+                  AppStrings.splash_title(context),
                   style: theme.textTheme.headlineSmall?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 30.sp,
                   ),
                 ),
 
@@ -97,11 +93,12 @@ class _SplashPageState extends State<SplashPage>
 
                 /// Subtitle
                 Text(
-                  AppStrings.t(context, 'splash_subtitle'),
+                  AppStrings.splash_subTitle(context),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withOpacity(0.8),
                     height: 1.3,
+                    fontSize: 18.sp,
                   ),
                 ),
 
@@ -109,10 +106,10 @@ class _SplashPageState extends State<SplashPage>
 
                 /// Loader
                 SizedBox(
-                  width: 26.w,
-                  height: 26.w,
+                  width: 28.w,
+                  height: 28.w,
                   child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
+                    strokeWidth: 3.0,
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                   ),
                 ),

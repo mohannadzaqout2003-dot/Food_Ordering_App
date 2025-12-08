@@ -64,13 +64,11 @@ class _OrdersPageState extends State<OrdersPage> {
                       itemBuilder: (context, index) {
                         final OrderModel order = provider.orders[index];
 
-                        final dateText = order.createdAt != null
-                            ? '${order.createdAt!.day.toString().padLeft(2, '0')}/'
-                                '${order.createdAt!.month.toString().padLeft(2, '0')}/'
-                                '${order.createdAt!.year}  '
-                                '${order.createdAt!.hour.toString().padLeft(2, '0')}:'
-                                '${order.createdAt!.minute.toString().padLeft(2, '0')}'
-                            : AppStrings.t(context, 'orders_unknown_date');
+                        final dateText = '${order.createdAt.day.toString().padLeft(2, '0')}/'
+                                '${order.createdAt.month.toString().padLeft(2, '0')}/'
+                                '${order.createdAt.year}  '
+                                '${order.createdAt.hour.toString().padLeft(2, '0')}:'
+                                '${order.createdAt.minute.toString().padLeft(2, '0')}';
 
                         return InkWell(
                           onTap: () {

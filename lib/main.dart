@@ -17,6 +17,7 @@ import 'package:restaurant_app/provider/theme_provider.dart';
 
 import 'package:restaurant_app/screen/bottom_page.dart';
 import 'package:restaurant_app/screen/favorites/favorit_page.dart';
+import 'package:restaurant_app/screen/home/onboarding_screen.dart';
 import 'package:restaurant_app/screen/login/login_page.dart';
 import 'package:restaurant_app/screen/orders/order_page.dart';
 import 'package:restaurant_app/screen/profile/term_page.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
 
           initialRoute: '/splash',
           routes: {
+            '/onboarding': (_) => OnboardingPage(),
             '/splash': (_) => const SplashPage(),
             '/': (_) => Consumer<AuthProvider>(
                   builder: (context, auth, child) {
