@@ -1,4 +1,4 @@
-# restaurant_app
+# Food-Ordering-App
 
 A new Flutter project.
 
