@@ -56,8 +56,9 @@ class MyApp extends StatelessWidget {
     final languageProvider = context.watch<LanguageProvider>();
 
     return ScreenUtilInit(
-      designSize: Size(375, 812),
+      designSize: Size(375, 841),
       minTextAdapt: true,
+      splitScreenMode: true,
       builder: (_, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -22,7 +22,7 @@ class LanguageProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (e) {
-      // debugPrint('SharedPreferences load error: $e');
+      debugPrint('SharedPreferences load error: $e');
     }
   }
 
@@ -34,7 +34,7 @@ class LanguageProvider extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_key, locale.languageCode == 'ar');
     } catch (e) {
-      // debugPrint('SharedPreferences save error: $e');
+      debugPrint('SharedPreferences save error: $e');
     }
   }
 }

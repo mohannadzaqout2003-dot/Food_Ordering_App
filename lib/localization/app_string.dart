@@ -28,7 +28,6 @@ class AppStrings {
     'password': 'Password',
     'logout': 'Logout',
 
-    // ===== Auth - Login Errors (اختياري لو حبيت تستخدمها) =====
     'login_error_empty_email': 'Enter the email',
     'login_error_invalid_email': 'Enter a valid email',
     'login_error_empty_password': 'Enter the password',
@@ -180,19 +179,6 @@ class AppStrings {
     'notification_order_body':
         'Your order has been placed successfully. You can track it from the Orders page.',
 
-    // ===== Payment =====
-    'payment_title': 'Payment',
-    'payment_total_to_pay': 'Total to pay',
-    'payment_choose_method': 'Choose payment method',
-    'payment_method_cash': 'Cash on Delivery',
-    'payment_method_card': 'Credit / Debit Card (demo)',
-    'payment_method_wallet': 'Wallet / Online (demo)',
-    'payment_confirm_button': 'Confirm & Pay',
-    'payment_method_unavailable':
-        'This payment method is not available in demo mode.',
-    'payment_error_no_user': 'Please login before completing payment.',
-    'payment_error_empty_cart': 'Your cart is empty.',
-
     //onboardin page
     'onboarding_slide_1_title': 'Welcome to Food App',
     'onboarding_slide_1_description':
@@ -205,6 +191,30 @@ class AppStrings {
     'onboarding_next': 'Next',
     'onboarding_skip': 'Skip',
     'onboarding_done': 'Done',
+
+    // ===== Payment =====
+    'payment_title': 'Payment',
+    'payment_select_method': 'Select a payment method',
+    'payment_summary': 'Payment summary',
+    'payment_cash_on_delivery': 'Cash on delivery',
+    'payment_card_simulation': 'Card (Simulation)',
+    'payment_place_order': 'Place order',
+    'payment_method_label': 'Payment method',
+    'payment_test_badge': 'Test',
+    'payment_selected': 'Selected',
+    'payment_select': 'Select',
+
+    // ===== Product Details =====
+    'product_details_title': 'Product details',
+    'product_details_prep': 'Prep',
+    'product_details_energy': 'Energy',
+    'product_details_size': 'Size',
+    'product_details_items': 'Items',
+    'product_details_quantity': 'Quantity',
+    'product_details_total': 'Total',
+    'product_details_add_to_cart': 'Add to cart',
+    'product_details_placeholder': '{name} description is not available yet.',
+    'product_details_nearby': 'Nearby',
   };
 
   // ================= ARABIC =================
@@ -261,6 +271,17 @@ class AppStrings {
     'home_shop_now': 'تسوق الآن',
     'home_no_products': 'لا توجد منتجات في هذه الفئة.',
     'home_added_to_cart': 'تمت إضافته إلى السلة',
+    // ===== Product Details =====
+    'product_details_title': 'تفاصيل المنتج',
+    'product_details_prep': 'التحضير',
+    'product_details_energy': 'السعرات',
+    'product_details_size': 'الحجم',
+    'product_details_items': 'الوصف',
+    'product_details_quantity': 'الكمية',
+    'product_details_total': 'الإجمالي',
+    'product_details_add_to_cart': 'أضف للسلة',
+    'product_details_placeholder': 'وصف {name} غير متوفر حالياً.',
+    'product_details_nearby': 'قريب',
 
     // ===== Cart =====
     'cart_title': 'سلة المشتريات',
@@ -345,7 +366,6 @@ class AppStrings {
     'edit_profile_success': 'تم تحديث الملف الشخصي بنجاح',
     'edit_profile_error_generic': 'حدث خطأ أثناء حفظ البيانات',
 
-    // الشروط والأحكام
     'terms_title': 'الشروط والأحكام',
     'terms_intro':
         'باستخدامك لهذا التطبيق، فإنك توافق على الشروط والأحكام التالية. يرجى قراءتها بعناية.',
@@ -386,16 +406,15 @@ class AppStrings {
 
     // ===== Payment =====
     'payment_title': 'الدفع',
-    'payment_total_to_pay': 'الإجمالي المطلوب',
-    'payment_choose_method': 'اختر طريقة الدفع',
-    'payment_method_cash': 'الدفع عند الاستلام',
-    'payment_method_card': 'بطاقة بنكية (تجريبي)',
-    'payment_method_wallet': 'محفظة / أونلاين (تجريبي)',
-    'payment_confirm_button': 'تأكيد الدفع',
-    'payment_method_unavailable':
-        'طريقة الدفع هذه غير مفعّلة في النسخة التجريبية.',
-    'payment_error_no_user': 'يرجى تسجيل الدخول قبل إتمام الدفع.',
-    'payment_error_empty_cart': 'سلة المشتريات فارغة.',
+    'payment_select_method': 'اختر طريقة الدفع',
+    'payment_summary': 'ملخص الدفع',
+    'payment_cash_on_delivery': 'الدفع عند الاستلام',
+    'payment_card_simulation': 'بطاقة (تجريبي)',
+    'payment_place_order': 'تأكيد الطلب',
+    'payment_method_label': 'طريقة الدفع',
+    'payment_test_badge': 'تجريبي',
+    'payment_selected': 'محدد',
+    'payment_select': 'اختيار',
     // onboarding page
     'onboarding_slide_1_title': 'مرحبًا في تطبيق الطعام',
     'onboarding_slide_1_description': 'اكتشف وجبات لذيذة، توصل إلى باب منزلك.',

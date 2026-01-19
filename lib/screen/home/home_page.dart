@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/localization/app_string.dart';
 import 'package:restaurant_app/provider/cart_provider.dart';
@@ -250,11 +251,25 @@ class _HomePageState extends State<HomePage> {
                               color: colorScheme.onPrimary.withOpacity(0.9),
                             ),
                           ),
-                          Text(
-                            AppStrings.t(context, 'home_shop_now'),
-                            style: theme.textTheme.labelMedium?.copyWith(
-                              color: colorScheme.primary,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            margin: EdgeInsets.only(top: 6.h),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 6.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.18),
+                              borderRadius: BorderRadius.circular(999),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.22),
+                              ),
+                            ),
+                            child: Text(
+                              AppStrings.t(context, 'home_shop_now'),
+                              style: theme.textTheme.labelMedium?.copyWith(
+                                color: colorScheme.onPrimary,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
                         ],
@@ -278,7 +293,7 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemCount: cat.categories.length,
-                  separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                  separatorBuilder: (_, _) => SizedBox(width: 8.w),
                   itemBuilder: (context, index) {
                     final isSelected = cat.currentCategory == index;
                     return ChoiceChip(
@@ -314,54 +329,46 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    int crossAxisCount;
-                    if (constraints.maxWidth >= 1024) {
-                      crossAxisCount = 5; // Web / Desktop
-                    } else if (constraints.maxWidth >= 800) {
-                      crossAxisCount = 4; // Large Tablet
-                    } else if (constraints.maxWidth >= 600) {
-                      crossAxisCount = 3; // Small Tablet
-                    } else {
-                      crossAxisCount = 2; // Phones
-                    }
+                    final w = constraints.maxWidth;
 
-                    final double childAspectRatio = constraints.maxWidth < 400
-                        ? 0.5
-                        : 0.60;
+                    // Better responsive columns
+                    final int crossAxisCount = w >= 1100
+                        ? 5
+                        : w >= 900
+                        ? 4
+                        : w >= 700
+                        ? 3
+                        : 2;
+
+                    //  Responsive spacing
+                    final double spacing = w >= 700 ? 14 : 12;
 
                     if (cat.isLoading) {
                       return const Center(child: CircularProgressIndicator());
                     }
-
                     if (products.isEmpty) {
                       return Center(
                         child: Text(AppStrings.t(context, 'home_no_products')),
                       );
                     }
 
-                    const String prepTime = '20 min';
-                    const String calories = '450 kcal';
-                    const String rating = '4.8';
-
-                    return GridView.builder(
+                    return MasonryGridView.count(
+                      physics: const BouncingScrollPhysics(),
+                      padding: EdgeInsets.only(bottom: 12.h),
                       itemCount: products.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: 14,
-                        crossAxisSpacing: 14,
-                        childAspectRatio: childAspectRatio,
-                      ),
+
+                      crossAxisCount: crossAxisCount,
+                      mainAxisSpacing: spacing,
+                      crossAxisSpacing: spacing,
+
                       itemBuilder: (context, index) {
                         final product = products[index];
                         final realIndex = cat.products.indexOf(product);
 
-                        final addedToCartText = AppStrings.t(
-                          context,
-                          'home_added_to_cart',
-                        );
-
-                        return GestureDetector(
-                          onTap: () {
+                        return _ProductCardPro(
+                          product: product,
+                          isDark: isDark,
+                          onOpen: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -370,193 +377,21 @@ class _HomePageState extends State<HomePage> {
                               ),
                             );
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: theme.cardColor,
-                              borderRadius: BorderRadius.circular(20.r),
-                              boxShadow: isDark
-                                  ? []
-                                  : [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.06),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 4),
-                                      ),
-                                    ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /// ---------- Image + Favorite ----------
-                                SizedBox(
-                                  height: 110.h,
-                                  child: Stack(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20.r),
-                                          topRight: Radius.circular(20.r),
-                                        ),
-                                        child: Hero(
-                                          tag: "product_${product.favoriteKey}",
-                                          child: Image.network(
-                                            product.image,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        top: 8,
-                                        right: 8,
-                                        child: InkWell(
-                                          onTap: () {
-                                            final idx = realIndex == -1
-                                                ? index
-                                                : realIndex;
-                                            cat.toggleFavorite(idx);
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(6),
-                                            decoration: BoxDecoration(
-                                              color: theme.cardColor
-                                                  .withOpacity(0.95),
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Icon(
-                                              product.isFavorite
-                                                  ? Icons.favorite
-                                                  : Icons.favorite_border,
-                                              color: product.isFavorite
-                                                  ? colorScheme.error
-                                                  : Colors.grey.shade500,
-                                              size: 18,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                          onToggleFav: () {
+                            final idx = realIndex == -1 ? index : realIndex;
+                            cat.toggleFavorite(idx);
+                          },
+                          onAddToCart: () {
+                            context.read<CartProvider>().addToCart(product);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  '${product.name} ${AppStrings.t(context, 'home_added_to_cart')}',
                                 ),
-
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w,
-                                      vertical: 8.h,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                product.name,
-                                                style: theme
-                                                    .textTheme
-                                                    .titleSmall
-                                                    ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            SizedBox(width: 6),
-                                            IconButton.filled(
-                                              style: IconButton.styleFrom(
-                                                backgroundColor: colorScheme
-                                                    .primary
-                                                    .withOpacity(0.14),
-                                              ),
-                                              onPressed: () {
-                                                context
-                                                    .read<CartProvider>()
-                                                    .addToCart(product);
-                                                ScaffoldMessenger.of(
-                                                  context,
-                                                ).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      '${product.name} $addedToCartText',
-                                                    ),
-                                                    behavior: SnackBarBehavior
-                                                        .floating,
-                                                  ),
-                                                );
-                                              },
-                                              icon: Icon(
-                                                Icons.add_shopping_cart_rounded,
-                                                color: colorScheme.primary,
-                                                size: 20,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-
-                                        SizedBox(height: 4.h),
-
-                                        Row(
-                                          children: [
-                                            Text(
-                                              '\$${product.price}',
-                                              style: theme.textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                            ),
-                                            const Spacer(),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.star,
-                                                  size: 14,
-                                                  color: Colors.amber,
-                                                ),
-                                                SizedBox(width: 3.w),
-                                                Text(
-                                                  rating,
-                                                  style:
-                                                      theme.textTheme.bodySmall,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-
-                                        SizedBox(height: 6.h),
-
-                                        /// Chips
-                                        Wrap(
-                                          spacing: 4.w,
-                                          runSpacing: 4.h,
-                                          children: [
-                                            _SmallTagChip(
-                                              label: product.category
-                                                  .toUpperCase(),
-                                              icon: Icons.category_outlined,
-                                            ),
-                                            _SmallTagChip(
-                                              label: calories,
-                                              icon: Icons
-                                                  .local_fire_department_outlined,
-                                            ),
-                                            _SmallTagChip(
-                                              label: prepTime,
-                                              icon: Icons.timer_outlined,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
                         );
                       },
                     );
@@ -565,6 +400,263 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProductCardPro extends StatelessWidget {
+  final dynamic product; // Product type عندك
+  final bool isDark;
+  final VoidCallback onOpen;
+  final VoidCallback onToggleFav;
+  final VoidCallback onAddToCart;
+
+  const _ProductCardPro({
+    required this.product,
+    required this.isDark,
+    required this.onOpen,
+    required this.onToggleFav,
+    required this.onAddToCart,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
+    return InkWell(
+      borderRadius: BorderRadius.circular(20.r),
+      onTap: onOpen,
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.cardColor,
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: isDark
+                ? Colors.white.withOpacity(0.06)
+                : Colors.black.withOpacity(0.06),
+          ),
+          boxShadow: isDark
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 10,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            //  Image with fixed ratio (keeps consistent look)
+            AspectRatio(
+              aspectRatio: 1.45,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20.r),
+                    ),
+                    child: Hero(
+                      tag: "product_${product.favoriteKey}",
+                      child: Image.network(
+                        product.image,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20.r),
+                        ),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            Colors.black.withOpacity(0.22),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 10,
+                    right: 10,
+                    child: GestureDetector(
+                      onTap: onToggleFav,
+                      child: Container(
+                        padding: EdgeInsets.all(7.w),
+                        decoration: BoxDecoration(
+                          color: theme.cardColor.withOpacity(0.88),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.black.withOpacity(0.06),
+                          ),
+                        ),
+                        child: Icon(
+                          product.isFavorite
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
+                          color: product.isFavorite
+                              ? cs.error
+                              : theme.iconTheme.color?.withOpacity(0.7),
+                          size: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 10,
+                    bottom: 10,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 6.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.cardColor.withOpacity(0.92),
+                        borderRadius: BorderRadius.circular(999),
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.06),
+                        ),
+                      ),
+                      child: Text(
+                        '\$${product.price}',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: cs.primary,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            //  Details auto-height
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 12.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          product.name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w900,
+                            height: 1.1,
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                      SizedBox(
+                        width: 38.w,
+                        height: 38.w,
+                        child: IconButton(
+                          onPressed: onAddToCart,
+                          style: IconButton.styleFrom(
+                            backgroundColor: cs.primary.withOpacity(0.12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14.r),
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.add_shopping_cart_rounded,
+                            color: cs.primary,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  Row(
+                    children: [
+                      Icon(Icons.star_rounded, size: 16, color: cs.secondary),
+                      SizedBox(width: 4.w),
+                      Text(
+                        '4.8',
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 5.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: cs.primary.withOpacity(0.10),
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Text(
+                          product.category.toUpperCase(),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            fontWeight: FontWeight.w900,
+                            color: cs.primary,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+
+                  // keep Wrap (now safe because card can grow)
+                  Wrap(
+                    spacing: 6.w,
+                    runSpacing: 6.h,
+                    children: const [
+                      // لو بدك dynamic خليه زي ما كان عندك
+                    ],
+                  ),
+
+                  LayoutBuilder(
+                    builder: (context, c) {
+                      final show3 = c.maxWidth > 170;
+                      final show2 = c.maxWidth > 140;
+                      return Wrap(
+                        spacing: 6.w,
+                        runSpacing: 6.h,
+                        children: [
+                          _SmallTagChip(
+                            label: '450 kcal',
+                            icon: Icons.local_fire_department_outlined,
+                          ),
+                          if (show2)
+                            _SmallTagChip(
+                              label: '20 min',
+                              icon: Icons.timer_outlined,
+                            ),
+                          if (show3)
+                            _SmallTagChip(
+                              label: 'Nearby',
+                              icon: Icons.near_me_outlined,
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -580,22 +672,26 @@ class _SmallTagChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final cs = theme.colorScheme;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.h),
       decoration: BoxDecoration(
-        color: colorScheme.surface.withOpacity(0.35),
+        color: cs.surface.withOpacity(0.70),
         borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: Colors.black.withOpacity(0.06)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 11, color: colorScheme.primary),
-          const SizedBox(width: 3),
+          Icon(icon, size: 13, color: cs.primary),
+          SizedBox(width: 5.w),
           Text(
             label,
-            style: theme.textTheme.labelSmall?.copyWith(fontSize: 10),
+            style: theme.textTheme.labelSmall?.copyWith(
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ],
       ),
