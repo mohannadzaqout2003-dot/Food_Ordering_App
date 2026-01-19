@@ -71,7 +71,7 @@ class BottomPage extends StatelessWidget {
                   0.25,
                 ),
               ),
-           
+
             ],
           ),
         ),

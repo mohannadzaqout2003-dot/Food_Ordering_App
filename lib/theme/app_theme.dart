@@ -65,7 +65,6 @@ class AppTheme {
     colorScheme: ColorScheme.dark(
       primary: AppColors.primaryDark,
       secondary: AppColors.secondaryDark,
-      background: AppColors.backgroundDark,
       surface: AppColors.surfaceDark,
     ),
 

@@ -15,8 +15,9 @@ class FavoritesPage extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final List<Product> favorites =
-        cat.products.where((p) => p.isFavorite).toList();
+    final List<Product> favorites = cat.products
+        .where((p) => p.isFavorite)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -35,18 +36,12 @@ class FavoritesPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    AppStrings.t(
-                      context,
-                      'favorites_empty_title',
-                    ),
+                    AppStrings.t(context, 'favorites_empty_title'),
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    AppStrings.t(
-                      context,
-                      'favorites_empty_subtitle',
-                    ),
+                    AppStrings.t(context, 'favorites_empty_subtitle'),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: Colors.grey,
                     ),
@@ -75,8 +70,10 @@ class FavoritesPage extends StatelessWidget {
                     ),
                     child: TextField(
                       decoration: InputDecoration(
-                        prefixIcon:
-                            const Icon(Icons.search, color: Colors.grey),
+                        prefixIcon: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
                         hintText: AppStrings.t(
                           context,
                           'favorites_search_hint',
@@ -96,14 +93,14 @@ class FavoritesPage extends StatelessWidget {
                         crossAxisCount = 3;
                       }
 
-                      final childAspectRatio =
-                          constraints.maxWidth < 350 ? 0.58 : 0.62;
+                      final childAspectRatio = constraints.maxWidth < 400
+                          ? 0.50.h
+                          : 0.62.w;
 
                       return GridView.builder(
                         padding: EdgeInsets.all(16.w),
                         itemCount: favorites.length,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
                           mainAxisSpacing: 12,
                           crossAxisSpacing: 12,
@@ -180,9 +177,9 @@ class FavoritesPage extends StatelessWidget {
                                         product.name,
                                         style: theme.textTheme.titleSmall
                                             ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13.sp,
-                                        ),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 13.sp,
+                                            ),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -191,9 +188,9 @@ class FavoritesPage extends StatelessWidget {
                                         '\$${product.price}',
                                         style: theme.textTheme.bodySmall
                                             ?.copyWith(
-                                          color: Colors.grey.shade600,
-                                          fontSize: 11.sp,
-                                        ),
+                                              color: Colors.grey.shade600,
+                                              fontSize: 11.sp,
+                                            ),
                                       ),
                                       SizedBox(height: 8.h),
                                       SizedBox(

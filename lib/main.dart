@@ -27,9 +27,7 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(
     MultiProvider(
@@ -43,7 +41,6 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
-
       ],
       child: const MyApp(),
     ),
@@ -59,9 +56,9 @@ class MyApp extends StatelessWidget {
     final languageProvider = context.watch<LanguageProvider>();
 
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: Size(375, 812),
       minTextAdapt: true,
-      builder: (_, __) {
+      builder: (_, _) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: AppStrings.t(context, 'app_title'),
@@ -71,10 +68,7 @@ class MyApp extends StatelessWidget {
           themeMode: themeProvider.themeMode,
 
           locale: languageProvider.locale,
-          supportedLocales: const [
-            Locale('en'),
-            Locale('ar'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('ar')],
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -86,14 +80,14 @@ class MyApp extends StatelessWidget {
             '/onboarding': (_) => OnboardingPage(),
             '/splash': (_) => const SplashPage(),
             '/': (_) => Consumer<AuthProvider>(
-                  builder: (context, auth, child) {
-                    if (auth.user != null) {
-                      return const BottomPage();
-                    } else {
-                      return const LoginPage();
-                    }
-                  },
-                ),
+              builder: (context, auth, child) {
+                if (auth.user != null) {
+                  return const BottomPage();
+                } else {
+                  return const LoginPage();
+                }
+              },
+            ),
             '/login': (_) => const LoginPage(),
             '/main': (_) => const BottomPage(),
             '/orders': (_) => const OrdersPage(),

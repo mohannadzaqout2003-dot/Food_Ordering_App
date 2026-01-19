@@ -72,45 +72,45 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: [
-        Consumer<NotificationProvider>(
-    builder: (context, notif, _) {
-      return Stack(
-        alignment: Alignment.center,
-        children: [
-          IconButton(
-            icon: const Icon(Icons.notifications_none),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const NotificationPage(),
-                ),
-              );
-              notif.markAllRead();
-            },
-          ),
-          if (notif.unreadCount > 0)
-            Positioned(
-              right: 6,
-              top: 6,
-              child: Container(
-                padding: const EdgeInsets.all(4),
-                decoration: const BoxDecoration(
-                  color: Colors.red,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  '${notif.unreadCount}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
+          Consumer<NotificationProvider>(
+            builder: (context, notif, _) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.notifications_none),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const NotificationPage(),
+                        ),
+                      );
+                      notif.markAllRead();
+                    },
                   ),
-                ),
-              ),
-            ),
-        ],
-      );
-    },
+                  if (notif.unreadCount > 0)
+                    Positioned(
+                      right: 6,
+                      top: 6,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '${notif.unreadCount}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
           ),
 
           // زر الطلبات
@@ -325,8 +325,8 @@ class _HomePageState extends State<HomePage> {
                       crossAxisCount = 2; // Phones
                     }
 
-                    final double childAspectRatio = constraints.maxWidth < 350
-                        ? 0.68
+                    final double childAspectRatio = constraints.maxWidth < 400
+                        ? 0.5
                         : 0.60;
 
                     if (cat.isLoading) {

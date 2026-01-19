@@ -5,6 +5,8 @@ import 'package:restaurant_app/localization/app_string.dart';
 import 'package:restaurant_app/theme/app_theme.dart';
 
 class OnboardingPage extends StatelessWidget {
+  const OnboardingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return IntroductionScreen(
@@ -69,7 +71,6 @@ class OnboardingPage extends StatelessWidget {
       ),
       done: Text(
         textAlign: TextAlign.center,
-
         AppStrings.t(context, 'onboarding_done'),
         style: TextStyle(
           fontWeight: FontWeight.w600,
